@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java POO | Guia de Estudos Definitivo</title>
+  <meta name="description" content="Guia de estudos interativo e definitivo para prova de Programação Orientada a Objetos em Java. Lições, exercícios práticos, simulado, flashcards e mais.">
+  
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Hamburger Button (Mobile) -->
+  <button class="hamburger-btn" id="hamburger-btn" onclick="app.toggleSidebar()">
+    <i data-lucide="menu"></i>
+  </button>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="app.toggleSidebar()"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-container">
+      <div class="logo-icon">J</div>
+      <div class="logo-text">
+        <h1 id="main-app-title">Java POO</h1>
+        <p>Guia Definitivo</p>
+      </div>
+    </div>
+    
+    <nav class="sidebar-menu">
+      <button class="menu-btn active" id="menu-btn-dashboard" onclick="app.switchSection('dashboard')">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Dashboard</span>
+      </button>
+      <button class="menu-btn" id="menu-btn-intro" onclick="app.switchSection('intro')">
+        <i data-lucide="lightbulb"></i>
+        <span>O que é POO?</span>
+      </button>
+      
+      <div class="menu-item-header">Conceitos de POO</div>
+      <div id="sidebar-concepts-list">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+      
+      <div class="menu-item-header">Praticar & Testar</div>
+      <button class="menu-btn" id="menu-btn-exercises" onclick="app.switchSection('exercises')">
+        <i data-lucide="wrench"></i>
+        <span>Exercícios (50)</span>
+      </button>
+
+      <button class="menu-btn" id="menu-btn-flashcards" onclick="app.switchSection('flashcards')">
+        <i data-lucide="layers-3"></i>
+        <span>Flashcards</span>
+      </button>
+      <button class="menu-btn" id="menu-btn-exam" onclick="app.switchSection('exam')">
+        <i data-lucide="clipboard-check"></i>
+        <span>Avaliação Geral</span>
+      </button>
+
+      <div class="menu-item-header">Referência</div>
+      <button class="menu-btn" id="menu-btn-revision" onclick="app.switchSection('revision')">
+        <i data-lucide="zap"></i>
+        <span>Revisão Rápida</span>
+      </button>
+      <button class="menu-btn" id="menu-btn-cheatsheet" onclick="app.switchSection('cheatsheet')">
+        <i data-lucide="file-code-2"></i>
+        <span>Guia de Sintaxe</span>
+      </button>
+      <button class="menu-btn" id="menu-btn-glossary" onclick="app.switchSection('glossary')">
+        <i data-lucide="book-a"></i>
+        <span>Glossário</span>
+      </button>
+    </nav>
+    
+    <div class="sidebar-footer">
+
+      <div class="progress-box">
+        <div class="progress-text">
+          <span>Progresso Geral</span>
+          <span id="global-progress-percent">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="global-progress-bar"></div>
+        </div>
+        <button class="btn btn-danger btn-sm" id="btn-reset-progress" onclick="app.resetProgress()" style="width:100%;margin-top:10px;justify-content:center;">
+          <i data-lucide="rotate-ccw"></i>
+          <span>Resetar Progresso</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button class="bottom-nav-btn active" id="bnav-dashboard" onclick="app.switchSection('dashboard')">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Início</span>
+      </button>
+      <button class="bottom-nav-btn" id="bnav-concepts" onclick="app.switchSection('intro')">
+        <i data-lucide="book-open"></i>
+        <span>Aprender</span>
+      </button>
+      <button class="bottom-nav-btn" id="bnav-exercises" onclick="app.switchSection('exercises')">
+        <i data-lucide="code-2"></i>
+        <span>Exercícios</span>
+      </button>
+      <button class="bottom-nav-btn" id="bnav-exam" onclick="app.switchSection('exam')">
+        <i data-lucide="clipboard-check"></i>
+        <span>Simulado</span>
+      </button>
+      <button class="bottom-nav-btn" id="bnav-more" onclick="app.toggleSidebar()">
+        <i data-lucide="menu"></i>
+        <span>Mais</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Panel -->
+  <main class="main-content">
+    
+    <!-- SECTION: DASHBOARD -->
+    <section id="section-dashboard" class="section-container active">
+      <div class="welcome-banner">
+        <h2>Domine POO em Java! 🚀</h2>
+        <p>Plataforma completa para preparação de provas de Programação Orientada a Objetos. Teoria, prática, simulados e revisão — tudo em um só lugar.</p>
+        <div class="continue-btn-container">
+          <button class="btn btn-primary" id="btn-continue-studying" onclick="app.continueStudying()">
+            <i data-lucide="play"></i>
+            <span>Continuar Estudando</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i data-lucide="book-open"></i></div>
+          <div class="stat-info">
+            <h3 id="stat-completed-lessons">0 / 9</h3>
+            <p>Conceitos Lidos</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple"><i data-lucide="code-2"></i></div>
+          <div class="stat-info">
+            <h3 id="stat-code-challenges">0 / 9</h3>
+            <p>Desafios Práticos</p>
+          </div>
+        </div>
+        <div class="stat-card" id="dashboard-exam-card" onclick="app.switchSection('exam')" style="cursor:pointer;">
+          <div class="stat-icon green"><i data-lucide="award"></i></div>
+          <div class="stat-info">
+            <h3 id="stat-exam-score">-%</h3>
+            <p>Score Simulado</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange"><i data-lucide="wrench"></i></div>
+          <div class="stat-info">
+            <h3 id="stat-exercises-done">0</h3>
+            <p>Exercícios Extras</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="roadmap-section">
+        <h3>Trilha de Aprendizado</h3>
+        <div class="roadmap-grid" id="dashboard-roadmap-grid">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Export/Import Progress -->
+      <div class="sync-area">
+        <div>
+          <h4>Sincronizar Progresso 🔄</h4>
+          <p>Exporte e importe seu progresso entre dispositivos.</p>
+        </div>
+        <div class="sync-btns">
+          <button class="btn btn-secondary" onclick="app.exportProgress()">
+            <i data-lucide="download"></i>
+            <span>Exportar</span>
+          </button>
+          <button class="btn btn-secondary" onclick="app.importProgress()">
+            <i data-lucide="upload"></i>
+            <span>Importar</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: INTRO FOR BEGINNERS -->
+    <section id="section-intro" class="section-container">
+      <div class="welcome-banner" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(99, 102, 241, 0.08) 100%);">
+        <h2>O que é Programação Orientada a Objetos?</h2>
+        <p>Se você nunca ouviu falar de POO, comece aqui! Vamos construir a base juntos usando analogias simples do dia a dia.</p>
+      </div>
+
+      <div class="intro-layout">
+        <div class="theory-content" style="padding:28px;">
+          <h3>A Grande Mudança de Paradigma</h3>
+          <p>Na <strong>Programação Estruturada/Procedural</strong> (como em C ou Python básico), escrevemos código como uma receita de bolo: uma sequência de instruções passo a passo de cima para baixo.</p>
+          <p>Na <strong>Programação Orientada a Objetos (POO)</strong>, organizamos o programa em torno de "entidades" chamadas <strong>Objetos</strong>. Em vez de funções soltas, criamos módulos que possuem seus próprios dados (atributos) e ações (métodos).</p>
+
+          <h3>A Metáfora do Smartphone</h3>
+          <p>Pense no seu <strong>Smartphone</strong> como um Objeto:</p>
+          <ul>
+            <li><strong>Características (Atributos)</strong>: Modelo, Cor, Nível de Bateria, Ligado (true/false).</li>
+            <li><strong>Ações (Métodos)</strong>: ligarTela(), fazerChamada(String numero), enviarMensagem().</li>
+          </ul>
+          <p>O smartphone é um objeto real. Mas antes dele existir, a fábrica tinha um <strong>desenho técnico / molde</strong>. Esse molde é a <strong>Classe</strong>. A classe define o modelo; o smartphone no seu bolso é o <strong>Objeto</strong> (instância).</p>
+
+          <h3>Os 4 Pilares da POO</h3>
+          <ol>
+            <li><strong>Encapsulamento</strong> — Esconder dados internos e expor apenas o necessário (como um controle remoto: você aperta botões sem saber a eletrônica interna).</li>
+            <li><strong>Herança</strong> — Criar classes a partir de outras, reaproveitando código (como um Smartphone que herda tudo de Dispositivo Eletrônico).</li>
+            <li><strong>Polimorfismo</strong> — Um mesmo método se comporta de formas diferentes dependendo do objeto (como tocar(): um Violão toca de um jeito, um Piano de outro).</li>
+            <li><strong>Abstração</strong> — Focar no que é essencial, ignorando detalhes irrelevantes para o contexto.</li>
+          </ol>
+
+          <h3>Por que usamos POO?</h3>
+          <ol>
+            <li><strong>Organização</strong> — Cada objeto cuida de suas próprias informações.</li>
+            <li><strong>Reutilização</strong> — Se você já tem o molde "Celular", pode criar 1000 celulares diferentes.</li>
+            <li><strong>Segurança</strong> — Proteger dados sensíveis com encapsulamento (private + getters/setters).</li>
+            <li><strong>Manutenção</strong> — Alterar um módulo sem quebrar todo o restante do sistema.</li>
+          </ol>
+
+          <div class="tip-card">
+            <strong>Para a prova:</strong> Os 9 conceitos cobrados neste guia são os blocos fundamentais da POO em Java. Domine cada um na teoria E na prática!
+          </div>
+        </div>
+
+        <div class="visualizer-card" style="position:sticky;top:32px;">
+          <h3>
+            <i data-lucide="sparkles" style="color:var(--warning);"></i>
+            <span>Estruturada vs Orientada a Objetos</span>
+          </h3>
+          <p class="visualizer-desc">Compare os dois paradigmas:</p>
+          
+          <div class="intro-comparison">
+            <div class="intro-comparison-item">
+              <strong style="color:var(--primary);">Programação Estruturada:</strong>
+              <div style="color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary);">
+                Foco em <strong>Como fazer</strong> — sequência de funções que processam dados soltos.
+              </div>
+            </div>
+            <div class="intro-comparison-item">
+              <strong style="color:var(--success);">Orientação a Objetos:</strong>
+              <div style="color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success);">
+                Foco em <strong>Quem faz</strong> — objetos com responsabilidades que interagem entre si.
+              </div>
+            </div>
+            <hr class="intro-comparison-divider">
+            <div style="font-size:0.8rem;text-align:center;color:var(--text-dark);font-style:italic;">
+              "Classes moldam o mundo; Objetos dão vida ao código."
+            </div>
+          </div>
+          
+          <button class="btn btn-primary" style="width:100%;margin-top:20px;justify-content:center;" onclick="app.continueStudying()">
+            <span>Iniciar Trilha de Conceitos</span>
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: STUDY MODULE (Theory + Code Lab) -->
+    <section id="section-study" class="section-container">
+      <div class="study-header">
+        <div class="study-title">
+          <h2 id="current-concept-title">Classe</h2>
+          <p id="current-concept-summary">O blueprint ou molde que define a estrutura de objetos.</p>
+        </div>
+        
+        <div class="study-tabs">
+          <button class="tab-btn active" id="tab-btn-learn" onclick="app.switchTab('learn')">
+            <i data-lucide="book-open"></i>
+            <span>Aprender</span>
+          </button>
+          <button class="tab-btn" id="tab-btn-practice" onclick="app.switchTab('practice')">
+            <i data-lucide="code-2"></i>
+            <span>Code Lab</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- TAB: LEARN -->
+      <div id="tab-content-learn" class="study-layout">
+        <div style="display:flex;flex-direction:column;gap:18px;width:100%;">
+          <article class="theory-content" id="lesson-theory-body">
+            <!-- Rendered dynamically by app.js -->
+          </article>
+          
+          <div class="theory-completion-card">
+            <div>
+              <h4>Finalizou a leitura deste conceito?</h4>
+              <p>Marque como lido para registrar no seu progresso.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-complete-theory" onclick="app.completeAndNextConcept()">
+              <span>Concluir e Avançar</span>
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <aside class="visualizer-card">
+          <h3>
+            <i data-lucide="layers" style="color:var(--primary);"></i>
+            <span>Visualizador de Memória</span>
+          </h3>
+          <p class="visualizer-desc" id="visualizer-explanation">Representação visual simplificada da JVM para este conceito.</p>
+          
+          <div class="memory-grid">
+            <div class="memory-column">
+              <div class="memory-header">Stack (Pilha)</div>
+              <div id="stack-container" class="memory-column">
+                <!-- Stack variables rendered dynamically -->
+              </div>
+            </div>
+            <div class="memory-column">
+              <div class="memory-header">Heap (Monte)</div>
+              <div id="heap-container" class="memory-column">
+                <!-- Heap objects rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+      
+      <!-- TAB: PRACTICE -->
+      <div id="tab-content-practice" style="display:none;">
+        <div class="practice-layout">
+          <div class="challenge-info-card">
+            <i data-lucide="alert-circle"></i>
+            <div class="challenge-text">
+              <h4>Desafio Prático — Ajuste de Erros</h4>
+              <p id="challenge-instructions">Analise o código, identifique o erro conceitual de POO e corrija-o para compilar com sucesso.</p>
+            </div>
+          </div>
+          
+          <!-- Code Editor -->
+          <div class="editor-container">
+            <div class="editor-header">
+              <div class="editor-title">
+                <span class="editor-title-dot"></span>
+                <span>Editor Java — Simulação</span>
+              </div>
+              <span style="font-size:0.7rem;color:var(--text-dark);">POOChallenge.java</span>
+            </div>
+            <div class="editor-body">
+              <div class="line-numbers" id="editor-line-numbers"></div>
+              <textarea class="editor-textarea" id="code-editor" spellcheck="false" autocomplete="off" oninput="app.updateLineNumbers()"></textarea>
+            </div>
+            <div class="editor-footer">
+              <button class="btn btn-secondary btn-sm" id="btn-show-hint" onclick="app.showChallengeHint()">
+                <i data-lucide="help-circle"></i>
+                <span>Dica</span>
+              </button>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <div class="compiler-spinner" id="compiler-spinner"></div>
+                <button class="btn btn-primary" id="btn-compile-run" onclick="app.runCodeCompiler()">
+                  <i data-lucide="play"></i>
+                  <span>Compilar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Terminal Output -->
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">Console de Saída</span>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+              <div class="terminal-line"><span class="terminal-input-indicator">></span> javac POOChallenge.java</div>
+              <div class="terminal-line" style="color:var(--text-muted);">Pronto para compilação.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- SECTION: EVALUATION EXAM -->
+    <section id="section-exam" class="section-container">
+      <!-- 1. START EXAM VIEW -->
+      <div id="exam-start-view" class="exam-start-container">
+        <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.08) 100%);">
+          <h2>Avaliação Geral de POO 🏆</h2>
+          <p>Teste seus conhecimentos com um simulado completo no estilo de certificações de mercado e vestibulares de tecnologia.</p>
+        </div>
+        
+        <div class="exam-card">
+          <h3>Instruções da Avaliação</h3>
+          <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-secondary);">
+            <li><strong>18 Questões:</strong> Abrangendo todos os 9 módulos estudados (2 questões por módulo).</li>
+            <li><strong>Tempo Limite:</strong> Você tem <strong>30 minutos</strong> para concluir. O temporizador é exibido na lateral.</li>
+            <li><strong>Navegação Livre:</strong> Você pode avançar, voltar e pular questões usando os botões ou a grade de navegação.</li>
+            <li><strong>Sinalizar para Revisão:</strong> Marque questões que tiver dúvidas para retornar a eles facilmente antes de finalizar.</li>
+            <li><strong>Desempenho por Categoria:</strong> Ao final, receba um diagnóstico completo indicando seus pontos fortes e tópicos recomendados para revisão.</li>
+          </ul>
+          
+          <!-- Last attempt statistics -->
+          <div id="exam-last-attempt-card" style="display:none; margin-top:12px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:var(--border-radius);">
+            <h4 style="margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+              <i data-lucide="history" style="color:var(--primary-light);"></i> Último Resultado
+            </h4>
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+              <span>Score: <strong id="exam-last-score">0/18</strong></span>
+              <span>Aproveitamento: <strong id="exam-last-pct">0%</strong></span>
+              <span>Tempo: <strong id="exam-last-time">00:00</strong></span>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary" onclick="app.startExam()" style="margin-top:12px; align-self:flex-start;">
+            <span>Iniciar Avaliação</span> <i data-lucide="play"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- 2. RUNNING EXAM VIEW -->
+      <div id="exam-running-view" class="exam-layout" style="display:none;">
+        <!-- Left: Question Pane -->
+        <div class="exam-card">
+          <div class="exam-question-header">
+            <span style="font-weight:700; color:var(--primary-light);" id="exam-question-number">Questão 1 de 18</span>
+            <button class="btn btn-secondary btn-sm btn-flag" id="btn-exam-flag" onclick="app.toggleExamFlag()">
+              <i data-lucide="flag"></i> <span class="hide-mobile">Revisar</span>
+            </button>
+          </div>
+          
+          <div class="exam-question-pane">
+            <p class="exam-question-text" id="exam-question-text">Pergunta...</p>
+            <div class="exam-options-list" id="exam-options-container">
+              <!-- Options rendered dynamically -->
+            </div>
+          </div>
+          
+          <div class="exam-footer-actions">
+            <button class="btn btn-secondary" onclick="app.navigateExam('prev')" id="btn-exam-prev">
+              <i data-lucide="arrow-left"></i> Anterior
+            </button>
+            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--text-muted);" id="exam-question-counter">1 / 18</span>
+            <button class="btn btn-secondary" onclick="app.navigateExam('next')" id="btn-exam-next">
+              Próximo <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Right: Control Sidebar -->
+        <div class="exam-sidebar-pane">
+          <!-- Timer -->
+          <div class="exam-timer-card">
+            <div style="font-size:0.8rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px; font-weight:700;">Tempo Restante</div>
+            <div class="exam-timer-val" id="exam-timer-display">30:00</div>
+          </div>
+          
+          <!-- Navigation Grid -->
+          <div class="exam-sidebar-card">
+            <div style="font-weight:700; font-size:0.9rem; border-bottom:1px solid var(--border-color); padding-bottom:8px; display:flex; align-items:center; gap:8px;">
+              <i data-lucide="grid" style="color:var(--primary-light);"></i> Mapa de Questões
+            </div>
+            
+            <div class="exam-nav-grid" id="exam-nav-grid-container">
+              <!-- 18 cells rendered dynamically -->
+            </div>
+            
+            <div style="display:flex; flex-direction:column; gap:6px; font-size:0.75rem; color:var(--text-muted); border-top:1px solid var(--border-color); padding-top:10px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:10px; height:10px; border-radius:3px; background:var(--primary-glow); border:1px solid var(--primary);"></span> Respondida
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="width:10px; height:10px; border-radius:3px; background:rgba(245, 158, 11, 0.15); border:1px solid var(--warning);"></span> Marcada para Revisão
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="app.confirmSubmitExam()" style="width:100%;">
+              <span>Finalizar Avaliação</span> <i data-lucide="check-square"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 3. RESULTS VIEW -->
+      <div id="exam-results-view" class="exam-results-container" style="display:none;">
+        <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(99, 102, 241, 0.08) 100%);">
+          <h2>Diagnóstico de Desempenho 📊</h2>
+          <p>Veja os resultados da sua avaliação e confira a análise detalhada por tópicos conceituais.</p>
+        </div>
+        
+        <div class="exam-card">
+          <div class="results-summary-card">
+            <!-- Left Circular Progress -->
+            <div class="results-circle-outer" id="exam-results-circle">
+              <span class="results-score-value" id="exam-results-score-value">0/18</span>
+              <span class="results-score-pct" id="exam-results-pct">0% Acertos</span>
+            </div>
+            
+            <!-- Right text breakdown -->
+            <div>
+              <h3 id="exam-results-title" style="font-size:1.4rem; font-weight:800; margin-bottom:8px;">Análise Completa</h3>
+              <p id="exam-results-desc" style="color:var(--text-secondary); line-height:1.6; margin-bottom:12px;">Carregando...</p>
+              
+              <div style="display:flex; gap:16px; font-size:0.85rem; color:var(--text-muted);">
+                <span>Tempo de Prova: <strong id="exam-results-time" style="color:var(--text-main);">00:00</strong></span>
+                <span>Tentativa: <strong id="exam-results-date" style="color:var(--text-main);">-</strong></span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Category Mastery List -->
+          <div style="border-top:1px solid var(--border-color); padding-top:20px; margin-top:12px;">
+            <h4 style="margin-bottom:16px; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+              <i data-lucide="bar-chart-3" style="color:var(--primary-light);"></i> Desempenho por Tópico Conceitual
+            </h4>
+            <div class="category-stats-grid" id="exam-category-stats-container">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+          
+          <!-- Retry / Back -->
+          <div style="display:flex; gap:12px; border-top:1px solid var(--border-color); padding-top:20px; margin-top:12px;">
+            <button class="btn btn-primary" onclick="app.startExam()">
+              <i data-lucide="refresh-cw"></i> <span>Refazer Avaliação</span>
+            </button>
+            <button class="btn btn-secondary" onclick="app.switchSection('dashboard')">
+              <i data-lucide="layout-dashboard"></i> <span>Voltar ao Dashboard</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Detailed Gabarito Review -->
+        <div class="exam-card">
+          <div class="gabarito-title">
+            <i data-lucide="list-checks" style="color:var(--primary-light); vertical-align:middle; margin-right:6px;"></i> Gabarito Comentado
+          </div>
+          <div class="review-list" id="exam-review-list-container">
+            <!-- Review items rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: FLASHCARDS -->
+    <section id="section-flashcards" class="section-container">
+      <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.08) 100%);">
+        <h2>Flashcards de Revisão 🧠</h2>
+        <p>Pratique recordação ativa (active recall), uma das técnicas mais eficientes para fixar conceitos teóricos de POO.</p>
+      </div>
+
+      <div style="max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px;">
+        <div class="flashcard-container" onclick="app.flipFlashcard()">
+          <div class="flashcard-inner" id="flashcard-inner-box">
+            <div class="flashcard-side flashcard-front">
+              <div class="flashcard-label" style="color:var(--secondary);">Pergunta / Conceito</div>
+              <p class="flashcard-question" id="flashcard-front-text">Carregando...</p>
+              <div class="flashcard-hint">
+                <i data-lucide="refresh-cw"></i> Clique para revelar a resposta
+              </div>
+            </div>
+            <div class="flashcard-side flashcard-back">
+              <div class="flashcard-label" style="color:var(--success);">Resposta Detalhada</div>
+              <p class="flashcard-answer" id="flashcard-back-text">Carregando...</p>
+              <div class="flashcard-hint">
+                <i data-lucide="refresh-cw"></i> Clique para voltar
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard-controls">
+          <span class="flashcard-counter" id="flashcards-counter">Card 1 de 15</span>
+          <div class="flashcard-btns">
+            <button class="btn btn-secondary" onclick="app.prevFlashcard(event)">
+              <i data-lucide="chevron-left"></i> Anterior
+            </button>
+            <button class="btn btn-primary" onclick="app.nextFlashcard(event)">
+              Próximo <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: EXERCISES BANK -->
+    <section id="section-exercises" class="section-container">
+      <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);">
+        <h2>Banco de Exercícios Práticos 🛠️</h2>
+        <p>50 exercícios de depuração para reforçar todos os conceitos de POO. Encontre e corrija erros reais de compilação Java.</p>
+      </div>
+
+      <div class="exercises-layout" id="exercises-layout">
+        <!-- Left: Exercise list with filters -->
+        <div class="exercises-sidebar" id="exercises-sidebar">
+          <div class="exercises-sidebar-header">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span>Exercícios</span>
+              <span style="font-size:0.75rem;background:var(--success-glow);color:var(--success);padding:3px 8px;border-radius:10px;font-weight:700;" id="exercises-completed-count">0 / 50</span>
+            </div>
+            <button class="btn btn-secondary btn-sm show-mobile" onclick="app.toggleExercisesSidebar()" style="padding:4px 8px;margin-left:auto;">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+          
+          <!-- Filters -->
+          <div class="exercises-filter-bar" id="exercises-filter-bar">
+            <button class="filter-chip active" data-filter="all" onclick="app.filterExercises('all')">Todos</button>
+            <button class="filter-chip" data-filter="pending" onclick="app.filterExercises('pending')">Pendentes</button>
+            <button class="filter-chip" data-filter="solved" onclick="app.filterExercises('solved')">Resolvidos</button>
+          </div>
+          <div class="exercises-filter-bar" id="exercises-difficulty-filter">
+            <button class="filter-chip" data-diff="Fácil" onclick="app.filterByDifficulty('Fácil')">Fácil</button>
+            <button class="filter-chip" data-diff="Médio" onclick="app.filterByDifficulty('Médio')">Médio</button>
+            <button class="filter-chip" data-diff="Difícil" onclick="app.filterByDifficulty('Difícil')">Difícil</button>
+          </div>
+          
+          <div class="exercises-list" id="exercises-list-container">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Right: Editor workspace -->
+        <div class="exercise-workspace" id="exercises-workspace">
+          <!-- Header with nav -->
+          <div class="exercise-header-bar">
+            <div>
+              <h3 id="exercise-title-label" style="font-size:1.1rem;font-weight:700;">Selecione um Exercício</h3>
+              <p id="exercise-instructions-label" style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;line-height:1.5;">Escolha um exercício na lista para começar.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span id="exercise-difficulty-badge" class="diff-badge"></span>
+              <button class="btn btn-secondary btn-sm" id="btn-toggle-sidebar" onclick="app.toggleExercisesSidebar()">
+                <i data-lucide="panel-left-close"></i>
+                <span class="hide-mobile">Lista</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="exercise-nav-btns">
+            <button class="btn btn-secondary btn-sm" onclick="app.prevExercise()">
+              <i data-lucide="chevron-left"></i> Anterior
+            </button>
+            <span class="exercise-counter" id="exercise-counter">1 / 50</span>
+            <button class="btn btn-secondary btn-sm" onclick="app.nextExercise()">
+              Próximo <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Editor + Terminal stacked -->
+          <div class="exercise-code-area">
+            <div class="editor-container expanded">
+              <div class="editor-header">
+                <div class="editor-title">
+                  <span class="editor-title-dot" style="background:#a855f7;"></span>
+                  <span>Exercício — Java</span>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-secondary btn-sm" onclick="app.restoreExerciseCode()" title="Restaurar código original">
+                    <i data-lucide="undo-2"></i>
+                  </button>
+                  <span style="font-size:0.7rem;color:var(--text-dark);" id="exercise-filename-label">POOExercise.java</span>
+                </div>
+              </div>
+              <div class="editor-body">
+                <div class="line-numbers" id="exercise-line-numbers"></div>
+                <textarea class="editor-textarea" id="exercise-code-editor" spellcheck="false" autocomplete="off" oninput="app.updateExerciseLineNumbers()"></textarea>
+              </div>
+              <div class="editor-footer">
+                <button class="btn btn-secondary btn-sm" id="btn-exercise-hint" onclick="app.showExerciseHint()">
+                  <i data-lucide="help-circle"></i>
+                  <span>Dica</span>
+                </button>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <div class="compiler-spinner" id="exercise-compiler-spinner"></div>
+                  <button class="btn btn-primary" id="btn-exercise-compile" onclick="app.runExerciseCompiler()">
+                    <i data-lucide="play"></i>
+                    <span>Compilar e Executar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="terminal-container" style="min-height:200px;max-height:350px;">
+              <div class="terminal-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-title">Console de Saída</span>
+              </div>
+              <div class="terminal-body" id="exercise-terminal-output">
+                <div class="terminal-line"><span class="terminal-input-indicator">></span> javac POOExercise.java</div>
+                <div class="terminal-line" style="color:var(--text-muted);">Pronto. Selecione um exercício e clique em "Compilar e Executar".</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: QUICK REVISION -->
+    <section id="section-revision" class="section-container">
+      <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);">
+        <h2>Revisão Rápida ⚡</h2>
+        <p>Resumo condensado de todos os 9 conceitos em cards compactos. Ideal para a última hora antes da prova!</p>
+      </div>
+      <div class="revision-grid" id="revision-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- SECTION: CHEAT SHEET (Dedicated Page) -->
+    <section id="section-cheatsheet" class="section-container">
+      <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.08) 100%);">
+        <h2>Guia Rápido de Sintaxe Java 📋</h2>
+        <p>Referência completa com snippets de código essenciais para a prova de POO.</p>
+      </div>
+      <div class="cheatsheet-grid" id="cheatsheet-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- SECTION: GLOSSARY -->
+    <section id="section-glossary" class="section-container">
+      <div class="welcome-banner" style="background:linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);">
+        <h2>Glossário de POO 📖</h2>
+        <p>Termos essenciais que você precisa conhecer para dominar Programação Orientada a Objetos em Java.</p>
+      </div>
+      <input type="text" class="glossary-search" id="glossary-search" placeholder="🔍 Buscar termo..." oninput="app.filterGlossary(this.value)">
+      <div class="glossary-grid" id="glossary-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast success">
+    <i data-lucide="check-circle-2"></i>
+    <span id="toast-message">Sucesso!</span>
+  </div>
+
+  <!-- Javascript Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
